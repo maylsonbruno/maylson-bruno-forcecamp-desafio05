@@ -1,0 +1,284 @@
+<!-- <template>
+    <template lwc:if={loading}>
+        <lightning-spinner alternative-text="Loading" size="x-small"></lightning-spinner>
+    </template>
+    <template lwc:else>
+        <lightning-modal-header label="Novo Caso"></lightning-modal-header>
+        <lightning-modal-body>
+            <div class="slds-col slds-size_2-of-3 slds-p-around_xx-small">
+                <lightning-combobox name="recordType" label="Tipo de Registro" value={value} placeholder=""
+                    options={recordTypeOptions} onchange={handleChange} required
+                    data-field-label="Tipo de Registro">
+                </lightning-combobox>
+            </div>
+        </lightning-modal-body>
+        <template lwc:if={isInstallation}>
+            <lightning-modal-body>
+                <div class="slds-grid slds-wrap slds-gutters">
+                    <div class="slds-col slds-size_1-of-3 slds-p-around_xx-small">
+                        <lightning-record-picker label="Conta" placeholder="" object-api-name="Account"
+                            data-field-name="accountId" value={accountId} required
+                            data-field-label="Conta">
+                        </lightning-record-picker>
+                    </div>
+                    <div class="slds-col slds-size_2-of-3 slds-p-around_xx-small">
+                        <lightning-record-picker label="Contato" placeholder="" object-api-name="Contact"
+                            data-field-name="contactId" value={contactId} filter={contactFilter} required
+                            data-field-label="Contato">
+                        </lightning-record-picker>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-3 slds-p-around_xx-small">
+                    <lightning-combobox name="address" label="Endereço de Instalação" options={addressOptions}
+                        onchange={handleAddressChange} value={addressId} placeholder="Rua XyZ-Cep XXX" required
+                        data-field-label="Endereço de Instalação" data-field-name="addressId">
+                    </lightning-combobox>
+                </div>
+                <div class="slds-col slds-size_2-of-3 slds-p-around_xx-small">
+                    <lightning-textarea name="description" label="Descrição"
+                        onchange={handleInputChange} data-field-label="Descrição"></lightning-textarea>
+                </div>
+            </lightning-modal-body>
+        </template>
+        <template lwc:if={isTechnicalVisit}>
+            <lightning-modal-body>
+                <div class="slds-grid slds-wrap slds-gutters">
+                    <div class="slds-col slds-size_1-of-3 slds-p-around_xx-small">
+                        <lightning-record-picker label="Conta" placeholder="Search ..." object-api-name="Account"
+                            data-field-name="accountId" value={accountId} required
+                            data-field-label="Conta">
+                        </lightning-record-picker>
+                    </div>
+                    <div class="slds-col slds-size_2-of-3 slds-p-around_xx-small">
+                        <lightning-record-picker label="Contato" placeholder="Search ..." object-api-name="Contact"
+                            data-field-name="contactId" value={contactId} filter={contactFilter} required
+                            data-field-label="Contato">
+                        </lightning-record-picker>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-3 slds-p-around_xx-small">
+                    <lightning-combobox name="address" label="Endereço de Instalação" options={addressOptions}
+                        placeholder="Rua XyZ-Cep XXX" onchange={handleAddressChange} value={addressId} required
+                        data-field-label="Endereço de Instalação" data-field-name="addressId">
+                    </lightning-combobox>
+                </div>
+                <div class="slds-col slds-size_2-of-3 slds-p-around_xx-small">
+                    <lightning-input name="ativo" label="Ativo" onchange={handleInputChange} required
+                        data-field-label="Ativo"></lightning-input>
+                </div>
+                <div class="slds-col slds-size_2-of-3 slds-p-around_xx-small">
+                    <lightning-textarea name="description" label="Descrição"
+                        onchange={handleInputChange} data-field-label="Descrição"></lightning-textarea>
+                </div>
+            </lightning-modal-body>
+        </template>
+        <template lwc:if={isAddressChange}>
+            <lightning-modal-body>
+                <div class="slds-col slds-size_1-of-3 slds-p-around_xx-small">
+                    <lightning-record-picker label="Conta" placeholder="" object-api-name="Account"
+                        data-field-name="accountId" value={accountId} required
+                        data-field-label="Conta">
+                    </lightning-record-picker>
+                </div>
+                <div class="slds-col slds-size_2-of-3 slds-p-around_xx-small">
+                    <lightning-combobox name="address" label="Endereço de Instalação" options={addressOptions}
+                        placeholder="Rua XyZ-Cep XXX" onchange={handleAddressChange} value={addressId} required
+                        data-field-label="Endereço de Instalação" data-field-name="addressId">
+                    </lightning-combobox>
+                </div>
+
+                <div class="slds-grid  slds-wrap slds-grid_vertical-align-center">
+                    <div class="slds-col slds-size_1-of-3 slds-p-around_xx-small">
+                        <c-zip-code lwc:ref="zipCodeComponent" zip-code={zipCode}
+                            onselectedaddress={handleChangedAddress} required
+                            data-field-label="CEP" data-field-name="zipCode">
+                        </c-zip-code>
+                    </div>
+
+                    <div class="slds-col slds-size_2-of-3 slds-p-around_xx-small">
+                        <lightning-input label="Endereço" placeholder="" value={street} data-field-name="street"
+                            onblur={handleChangeField} required
+                            data-field-label="Endereço">
+                        </lightning-input>
+                    </div>
+
+                    <div class="slds-col slds-size_1-of-3 slds-p-around_xx-small">
+                        <lightning-input label="Número" placeholder="" value={number} onblur={handleChangeField}
+                            data-field-label="Número">
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_2-of-3 slds-p-around_xx-small">
+                        <lightning-input label="Complemento" placeholder="" value={additionalInfo}
+                            onblur={handleChangeField} data-field-label="Complemento">
+                        </lightning-input>
+                    </div>
+
+                    <div class="slds-col slds-size_1-of-3 slds-p-around_xx-small">
+                        <lightning-input label="Estado" placeholder="" value={state} onblur={handleChangeField} required
+                            data-field-label="Estado" data-field-name="state">
+                        </lightning-input>
+                    </div>
+
+                    <div class="slds-col slds-size_2-of-3 slds-p-around_xx-small">
+                        <lightning-input label="Cidade" placeholder="" value={city} onblur={handleChangeField} required
+                            data-field-label="Cidade" data-field-name="city">
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3 slds-p-around_xx-small">
+                        <lightning-textarea name="description" label="Descrição"
+                            onchange={handleInputChange} data-field-label="Descrição"></lightning-textarea>
+                    </div>
+                </div>
+            </lightning-modal-body>
+        </template>
+    </template>
+    <lightning-modal-footer>
+        <lightning-button class="slds-button" variant="neutral" label="Cancelar"
+            onclick={handleCancel}></lightning-button>
+        <lightning-button class="slds-button slds-m-left_x-small" variant="brand" label="Salvar"
+            onclick={handleSaveCase}></lightning-button>
+    </lightning-modal-footer>
+</template> -->
+
+
+<template>
+    <template lwc:if={loading}>
+        <lightning-spinner alternative-text="Loading" size="x-small"></lightning-spinner>
+    </template>
+    <template lwc:else>
+        <lightning-modal-header label="Novo Caso"></lightning-modal-header>
+        <lightning-modal-body>
+            <div class="slds-col slds-size_2-of-3 slds-p-around_xx-small">
+                <lightning-combobox name="recordType" label="Tipo de Registro" value={value} placeholder=""
+                    options={recordTypeOptions} onchange={handleChange} required>
+                </lightning-combobox>
+            </div>
+
+        </lightning-modal-body>
+        <template lwc:if={isInstallation}>
+            <lightning-modal-body>
+                <div class="slds-grid slds-wrap slds-gutters">
+                    <div class="slds-col slds-size_1-of-3 slds-p-around_xx-small">
+                        <lightning-record-picker label="Conta" placeholder="" object-api-name="Account"
+                            data-field-name="accountId" value={accountId} required
+                            data-field-label="Conta">
+                        </lightning-record-picker>
+                    </div>
+                    <div class="slds-col slds-size_2-of-3 slds-p-around_xx-small">
+                        <lightning-record-picker label="Contato" placeholder="" object-api-name="Contact"
+                            data-field-name="contactId" value={contactId} filter={contactFilter} required
+                            data-field-label="Contato">
+                        </lightning-record-picker>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_2-of-3 slds-p-around_xx-small">
+                    <lightning-combobox name="address" label="Endereço de Instalação" options={addressOptions}
+                        placeholder="" onchange={handleAddressChange} value={addressId} required
+                        data-field-label="Endereço de Instalação" data-field-name="addressId">
+                    </lightning-combobox>
+                </div>
+                <div class="slds-col slds-size_2-of-3 slds-p-around_xx-small">
+                    <lightning-textarea name="description" label="Descrição"
+                        onchange={handleInputChange} data-field-label="Descrição"></lightning-textarea>
+                </div>
+            </lightning-modal-body>
+        </template>
+        <template lwc:if={isTechnicalVisit}>
+            <lightning-modal-body>
+                <div class="slds-grid slds-wrap slds-gutters">
+                    <div class="slds-col slds-size_1-of-3 slds-p-around_xx-small">
+                        <lightning-record-picker label="Conta" placeholder="" object-api-name="Account"
+                            data-field-name="accountId" value={accountId} required
+                            data-field-label="Conta">
+                        </lightning-record-picker>
+                    </div>
+                    <div class="slds-col slds-size_2-of-3 slds-p-around_xx-small">
+                        <lightning-record-picker label="Contato" placeholder="" object-api-name="Contact"
+                            data-field-name="contactId" value={contactId} filter={contactFilter} data-field-label="Contato" required
+                            >
+                        </lightning-record-picker>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_2-of-3 slds-p-around_xx-small">
+                    <lightning-combobox name="address" label="Endereço de Instalação" options={addressOptions}
+                        placeholder="" onchange={handleAddressChange} value={addressId} required
+                        data-field-label="Endereço de Instalação" data-field-name="addressId">
+                    </lightning-combobox>
+                </div>
+                <div class="slds-col slds-size_2-of-3 slds-p-around_xx-small">
+                    <lightning-input name="ativo" label="Ativo" onchange={handleInputChange} required
+                        data-field-label="Ativo"></lightning-input>
+                </div>
+                <div class="slds-col slds-size_2-of-3 slds-p-around_xx-small">
+                    <lightning-textarea name="description" label="Descrição"
+                        onchange={handleInputChange} data-field-label="Descrição"></lightning-textarea>
+                </div>
+            </lightning-modal-body>
+        </template>
+        <template lwc:if={isAddressChange}>
+            <lightning-modal-body>
+                <div class="slds-col slds-size_1-of-3 slds-p-around_xx-small">
+                    <lightning-record-picker label="Conta" placeholder="" object-api-name="Account"
+                        data-field-name="accountId" value={accountId} required
+                        data-field-label="Conta">
+                    </lightning-record-picker>
+                </div>
+                <div class="slds-col slds-size_2-of-3 slds-p-around_xx-small">
+                    <lightning-combobox name="address" label="Endereço de Instalação" options={addressOptions}
+                        placeholder="" onchange={handleAddressChange} value={addressId} required
+                        data-field-label="Endereço de Instalação" data-field-name="addressId">
+                    </lightning-combobox>
+                </div>
+
+                <div class="slds-grid  slds-wrap slds-grid_vertical-align-center">
+                    <div class="slds-col slds-size_1-of-3 slds-p-around_xx-small">
+                        <c-zip-code lwc:ref="zipCodeComponent" zip-code={zipCode}
+                            onselectedaddress={handleChangedAddress} required
+                            data-field-label="CEP" data-field-name="zipCode">
+                        </c-zip-code>
+                    </div>
+
+                    <div class="slds-col slds-size_2-of-3 slds-p-around_xx-small">
+                        <lightning-input label="Endereço" placeholder="" value={street} data-field-name="street"
+                            onblur={handleChangeField} required
+                            data-field-label="Endereço">
+                        </lightning-input>
+                    </div>
+
+                    <div class="slds-col slds-size_1-of-3 slds-p-around_xx-small">
+                        <lightning-input label="Número" placeholder="" value={number} onblur={handleChangeField}
+                            data-field-label="Número">
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_2-of-3 slds-p-around_xx-small">
+                        <lightning-input label="Complemento" placeholder="" value={additionalInfo}
+                            onblur={handleChangeField} data-field-label="Complemento">
+                        </lightning-input>
+                    </div>
+
+                    <div class="slds-col slds-size_1-of-3 slds-p-around_xx-small">
+                        <lightning-input label="Estado" placeholder="" value={state} onblur={handleChangeField} required
+                            data-field-label="Estado" data-field-name="state">
+                        </lightning-input>
+                    </div>
+
+                    <div class="slds-col slds-size_2-of-3 slds-p-around_xx-small">
+                        <lightning-input label="Cidade" placeholder="" value={city} onblur={handleChangeField} required
+                            data-field-label="Cidade" data-field-name="city">
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3 slds-p-around_xx-small">
+                        <lightning-textarea name="description" label="Descrição"
+                            onchange={handleInputChange} data-field-label="Descrição"></lightning-textarea>
+                    </div>
+                </div>
+            </lightning-modal-body>
+        </template>
+    </template>
+    <lightning-modal-footer>
+        <lightning-button class="slds-button" variant="neutral" label="Cancelar"
+            onclick={handleCase}></lightning-button>
+        <lightning-button class="slds-button slds-m-left_x-small" variant="brand" label="Salvar"
+            onclick={handleSaveCase}></lightning-button>
+    </lightning-modal-footer>
+</template>
